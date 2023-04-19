@@ -1,7 +1,7 @@
 import { StyledLink } from 'components/StyledLink/StyledLink.styled';
 import { Outlet } from 'react-router-dom';
 
-export const About = () => {
+const About = () => {
   return (
     <>
       .<h1>About</h1>
@@ -18,3 +18,4 @@ export const About = () => {
     </>
   );
 };
+export default About;

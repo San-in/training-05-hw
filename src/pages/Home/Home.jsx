@@ -1,25 +1,39 @@
-export const Home = () => {
+import Gallery from 'components/Gallery/Gallery';
+import ListOfFilms from 'components/ListOfFilms/ListOfFilms';
+import { fetchListOfFilms } from 'helpers/api';
+import { useLocation } from 'react-router-dom';
+import { GiCardRandom } from 'react-icons/gi';
+import { GalleryWrap, HomeConteiner, ListTitle } from 'pages/Home/Home.styled';
+
+const { useState, useEffect } = require('react');
+
+const Home = () => {
+  const [trendingMovies, setTrandingMovies] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchListOfFilms(`/trending/all/day`).then(response => {
+      if (!response) {
+        return;
+      }
+      setTrandingMovies(response);
+    });
+  }, []);
+
   return (
-    <>
-      <h1>Main Paga</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-        vero excepturi eum, quibusdam aperiam omnis pariatur enim a inventore
-        asperiores! At recusandae blanditiis ducimus possimus illum error
-        tempora quis illo?
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-        vero excepturi eum, quibusdam aperiam omnis pariatur enim a inventore
-        asperiores! At recusandae blanditiis ducimus possimus illum error
-        tempora quis illo?
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-        vero excepturi eum, quibusdam aperiam omnis pariatur enim a inventore
-        asperiores! At recusandae blanditiis ducimus possimus illum error
-        tempora quis illo?
-      </p>
-    </>
+    <HomeConteiner>
+      <div>
+        <ListTitle>Top list</ListTitle>
+        <ListOfFilms arrayOfFilms={trendingMovies} location={location} />
+      </div>
+      <GalleryWrap>
+        <ListTitle>
+          Pick at random <GiCardRandom />
+        </ListTitle>
+        <Gallery galleryItems={trendingMovies} location={location} />
+      </GalleryWrap>
+    </HomeConteiner>
   );
 };
+
+export default Home;

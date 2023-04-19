@@ -1,35 +1,34 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import SharedLayout from 'components/SharedLayout/SharedLayout';
 
-import { Home } from 'pages/Home/Home';
-import { About } from 'pages/About/About';
-import { Products } from 'pages/Products/Products';
-import { NotFound } from 'pages/NotFound/NotFound';
-import { ProductItem } from 'pages/ProductItem/ProductItem';
-import { SharedComponents } from 'components/SharedComponent/SharedComponents';
-import { Team } from 'components/Team/Team';
-import { History } from 'components/History/History';
+const NotFound = lazy(() => import('pages/NotFound/NotFound'));
+const Home = lazy(() => import('pages/Home/Home'));
+const MovieDetails = lazy(() => import('pages/MovieDetails/MovieDetails'));
+const Cast = lazy(() => import('components/Cast/Cast'));
+const Reviews = lazy(() => import('components/Reviews/Reviews'));
+const Movies = lazy(() => import('pages/Movies/Movies'));
 
 export const App = () => {
   return (
     <div
       style={{
-        height: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         fontSize: 40,
         color: '#010101',
       }}
     >
       <Routes>
-        <Route path="/" element={<SharedComponents />}>
+        <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="about" element={<About />}>
-            <Route path="history" element={<History />} />
-            <Route path="team" element={<Team />} />
+          <Route path="movies" element={<Movies />} />
+          <Route path="movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
           </Route>
-          <Route path="products" element={<Products />} />
-          <Route path="products/:productId" element={<ProductItem />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
